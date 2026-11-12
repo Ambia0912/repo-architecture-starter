@@ -21,11 +21,11 @@ function extractDeclarations(src) {
 
 test('ENTRY GUARD: main.js line budget is not breached', () => {
   const lines = source.split('\n').length;
-  assert.ok(lines <= LINE_BUDGET, main.js has \ lines, exceeding budget of \);
+  assert.ok(lines <= LINE_BUDGET, `main.js has ${lines} lines, exceeding budget of ${LINE_BUDGET}`);
 });
 
 test('ENTRY GUARD: top-level declarations in main.js remain frozen', () => {
   const actual = extractDeclarations(source);
   const added = actual.filter(n => !ALLOWED_DECLARATIONS.includes(n));
-  assert.deepEqual(added, [], New top-level names in main.js must be reviewed against D01: \);
+  assert.deepEqual(added, [], `New top-level names in main.js must be reviewed against D01: ${added.join(', ')}`);
 });

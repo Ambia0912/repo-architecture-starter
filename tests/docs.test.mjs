@@ -16,17 +16,17 @@ test('DOCS GUARD: Every script in src/ is indexed in CODE-MAP.md', async () => {
     const list = [];
     for (const entry of await readdir(dir, { withFileTypes: true })) {
       if (entry.isDirectory()) {
-        list.push(...await scan(new URL(\/, dir), \\/));
+        list.push(...await scan(new URL(`${entry.name}/`, dir), `${prefix}${entry.name}/`));
       } else if (entry.name.endsWith('.js')) {
-        list.push(\\);
+        list.push(`${prefix}${entry.name}`);
       }
     }
     return list;
   }
   
   const scripts = await scan(new URL('../src/', import.meta.url));
-  const missing = scripts.filter((s) => !codeMap.includes(src/\));
-  assert.deepEqual(missing, [], Files missing from CODE-MAP.md: \);
+  const missing = scripts.filter((s) => !codeMap.includes(`src/${s}`));
+  assert.deepEqual(missing, [], `Files missing from CODE-MAP.md: ${missing.join(', ')}`);
 });
 
 test('DOCS GUARD: Every route in state.js is named in AI-BRIEF.md', async () => {
@@ -37,7 +37,7 @@ test('DOCS GUARD: Every route in state.js is named in AI-BRIEF.md', async () => 
   const routesMatch = state.match(/screens\s*=\s*new\s+Set\(\[([^\]]+)\]\)/);
   if (routesMatch) {
     const routes = [...routesMatch[1].matchAll(/'([\w-]+)'/g)].map(m => m[1]);
-    const missing = routes.filter(r => !brief.includes(#\));
-    assert.deepEqual(missing, [], Routes missing from AI-BRIEF.md: \);
+    const missing = routes.filter(r => !brief.includes(`#${r}`));
+    assert.deepEqual(missing, [], `Routes missing from AI-BRIEF.md: ${missing.join(', ')}`);
   }
 });
